@@ -5,15 +5,10 @@ class Genre < ActiveRecord::Base
 
 
   def slug
-    slug = self.name.downcase
-    slug.split(' ').join('-')
+    name.downcase.gsub(" ", "-")
   end
 
   def self.find_by_slug(slug)
-    genre = slug.split('-').map do |name|
-              name.capitalize
-            end.join(' ')
-
-    self.find_by(name: genre)
+    Genre.all.find {|genre| genre.slug == slug}
   end
 end
